@@ -1,4 +1,4 @@
-package br.com.productconsumer.model;
+package br.com.productconsumer.models;
 
 public class Product {
 
