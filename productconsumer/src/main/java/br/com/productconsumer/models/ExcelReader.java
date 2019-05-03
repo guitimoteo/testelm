@@ -28,7 +28,7 @@ public class ExcelReader {
 		Sheet sheet = workbook.getSheetAt(0);
 		Double category = sheet.getRow(0).getCell(1).getNumericCellValue();
 		List<Product> products = new ArrayList<>();
-		sheet.forEach(r-> products.add(new Product(category, r.getCell(0).getStringCellValue(), r.getCell(1).getStringCellValue(), r.getCell(2).getBooleanCellValue(), r.getCell(3).getStringCellValue(), r.getCell(4).getNumericCellValue())));
+		sheet.forEach(r -> {if(r.getRowNum() > 2) products.add(new Product(category, r));});
 		return products;
 	}
 }
