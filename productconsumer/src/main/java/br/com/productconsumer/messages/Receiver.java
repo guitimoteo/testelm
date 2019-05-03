@@ -1,4 +1,4 @@
-package br.com.productconsumer.listeners;
+package br.com.productconsumer.messages;
 
 import java.util.List;
 
