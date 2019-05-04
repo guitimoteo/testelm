@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import br.com.product.commons.dtos.FileMessageDto;
 import br.com.product.commons.dtos.ProductDto;
+import br.com.product.commons.models.Product;
 import br.com.product.commons.repositories.ProductRepository;
 import br.com.productserver.models.Status;
 
@@ -39,6 +40,7 @@ public class ProductService {
 	}
 
 	public void update(Double id, ProductDto productDto) {
+		productRepository.save(new Product(productDto));
 	}
 	
 	public void delete(Double id) {

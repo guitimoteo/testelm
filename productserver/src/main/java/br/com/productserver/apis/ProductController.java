@@ -55,7 +55,7 @@ public class ProductController {
 	
 	@PutMapping(path="/id/{id}")
 	public ResponseEntity<MessageResponse> updateProduct(@PathVariable(name="id", required = true) Double id, ProductDto productDto) {
-		
+		productService.update(id);
 		return new ResponseEntity<MessageResponse>(new MessageResponse("Product updated"), HttpStatus.OK);
 	}
 	
