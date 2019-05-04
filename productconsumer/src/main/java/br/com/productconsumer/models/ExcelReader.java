@@ -14,7 +14,6 @@ import br.com.productconsumer.dto.FileMessageDto;
 
 public class ExcelReader {
 
-	private Workbook workbook;
 	private Sheet sheet;
 
 	public ExcelReader(FileMessageDto fileDto) {
