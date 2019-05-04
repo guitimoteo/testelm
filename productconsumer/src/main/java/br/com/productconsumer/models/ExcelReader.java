@@ -18,9 +18,9 @@ public class ExcelReader {
 
 	public ExcelReader(FileMessageDto fileDto) {
 		try {
-			this.workbook = HSSFWorkbookFactory.create(new ByteArrayInputStream(fileDto.getContent()));
+			Workbook workbook = HSSFWorkbookFactory.create(new ByteArrayInputStream(fileDto.getContent()));
 			sheet = workbook.getSheetAt(0);
-			this.workbook.close();
+			workbook.close();
 		} catch (EncryptedDocumentException | IOException e) {
 			throw new RuntimeException(e);
 		}
