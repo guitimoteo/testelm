@@ -1,4 +1,4 @@
-package br.com.productconsumer.models;
+package br.com.productserver.models;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.data.annotation.Id;

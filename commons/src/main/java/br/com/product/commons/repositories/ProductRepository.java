@@ -1,4 +1,4 @@
-package br.com.productconsumer.repositories;
+package br.com.product.commons.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 

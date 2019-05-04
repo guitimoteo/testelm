@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
-import br.com.productconsumer.dto.FileMessageDto;
+import br.com.product.commons.dtos.FileMessageDto;
 import br.com.productconsumer.models.ExcelReader;
 import br.com.productconsumer.services.ProductService;
 
@@ -26,6 +26,7 @@ public class Receiver {
 		} catch (RuntimeException e) {
 			logger.error("Erro ao converter o arquivo: {}, {}", e.getMessage(), e.getCause());
 			e.printStackTrace();
+			throw e;
 		}
 	}
 }

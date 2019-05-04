@@ -1,4 +1,8 @@
-package br.com.productconsumer.dto;
+package br.com.product.commons.dtos;
+
+import java.io.IOException;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
@@ -10,6 +14,15 @@ public class FileMessageDto {
 	private String name;
 	@JsonProperty("content")
 	private byte[] content;
+	public FileMessageDto(MultipartFile file) {
+		super();
+		try {
+			this.name = file.getName();
+			this.content = file.getBytes();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 	/**
 	 * @return the name
 	 */
@@ -17,21 +30,9 @@ public class FileMessageDto {
 		return name;
 	}
 	/**
-	 * @param name the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-	/**
 	 * @return the content
 	 */
 	public byte[] getContent() {
 		return content;
-	}
-	/**
-	 * @param content the content to set
-	 */
-	public void setContent(byte[] content) {
-		this.content = content;
 	}
 }

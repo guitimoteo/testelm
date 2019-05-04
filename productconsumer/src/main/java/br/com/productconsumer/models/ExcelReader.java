@@ -10,7 +10,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbookFactory;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import br.com.productconsumer.dto.FileMessageDto;
+import br.com.product.commons.dtos.FileMessageDto;
+import br.com.product.commons.models.Product;
 
 public class ExcelReader {
 
