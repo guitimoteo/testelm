@@ -14,6 +14,8 @@ public class FileMessageDto {
 	private String name;
 	@JsonProperty("content")
 	private byte[] content;
+	@JsonProperty("token")
+	private final int token = hashCode();
 	public FileMessageDto(MultipartFile file) {
 		super();
 		try {
