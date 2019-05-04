@@ -7,6 +7,8 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.mongodb.lang.NonNull;
 
+import br.com.product.commons.dtos.ProductDto;
+
 @Document("products")
 public class Product {
 	@Id
@@ -34,5 +36,15 @@ public class Product {
 		this.freeShipping = row.getCell(2).getNumericCellValue() == 1;
 		this.description = row.getCell(3).getStringCellValue();
 		this.price = Double.valueOf(row.getCell(4).getStringCellValue());
+	}
+	
+	public Product(ProductDto productDto) {
+		super();
+		this.category = productDto.getCategory();
+		this.lm = productDto.getLm();
+		this.name = productDto.getName();
+		this.freeShipping = productDto.getFreeShipping();
+		this.description = productDto.getDescription();
+		this.price = productDto.getPrice();
 	}
 }

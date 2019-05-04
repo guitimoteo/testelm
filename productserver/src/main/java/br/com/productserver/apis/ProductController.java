@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.product.commons.dtos.FileMessageDto;
+import br.com.product.commons.dtos.ProductDto;
 import br.com.productserver.models.MessageResponse;
 import br.com.productserver.models.Status;
 import br.com.productserver.services.ProductService;
@@ -37,29 +38,30 @@ public class ProductController {
 		return null;
 	}
 
-	@GetMapping(path = "/id/{id}/status")
-	public Status getStatus(@PathVariable(name = "id", required = true) Integer id) {
-		productService.getStatus(id);
-		return null;
+	@GetMapping(path = "/token/{token}/status")
+	public ResponseEntity<MessageResponse> getStatus(@PathVariable(name = "token", required = true) Integer id) {
+		Status status = productService.getStatus(id);
+		return new ResponseEntity<MessageResponse>(new MessageResponse(status.getMessage()), status.getHttpStatus());
 	}
  
 	@PostMapping(path = "/", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<MessageResponse> createProduct(@RequestParam(name = "file", required = true) MultipartFile fileMultipart) throws Exception {
 		logger.debug("createProduct:{} ", fileMultipart.getOriginalFilename());
-		productService.sendFile(fileMultipart);
+		int token = productService.sendFile(fileMultipart);
 		MultiValueMap<String, String> headers = new HttpHeaders();
-		headers.add("Location", "");
-		return new ResponseEntity<MessageResponse>(null, headers, HttpStatus.ACCEPTED);
+		headers.add(HttpHeaders.LOCATION, String.format("api/v1/products/tokens/%s/status", token));
+		return new ResponseEntity<MessageResponse>(new MessageResponse("File in process..."), headers, HttpStatus.ACCEPTED);
 	}
 	
 	@PutMapping(path="/id/{id}")
-	public ResponseEntity<MessageResponse> updateProduct(@PathVariable(name="id", required = true) String id) {
-		return new ResponseEntity<MessageResponse>(null, null, HttpStatus.OK);
+	public ResponseEntity<MessageResponse> updateProduct(@PathVariable(name="id", required = true) Double id, ProductDto productDto) {
+		
+		return new ResponseEntity<MessageResponse>(new MessageResponse("Product updated"), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(path="/id/{id}")
-	public ResponseEntity<MessageResponse> deleteProduct(Integer id) {
+	public ResponseEntity<MessageResponse> deleteProduct(Double id) {
 		productService.delete(id);
-		return new ResponseEntity<MessageResponse>(null, null, HttpStatus.OK);
+		return new ResponseEntity<MessageResponse>(new MessageResponse("Product deleted"), HttpStatus.OK);
 	}
 }

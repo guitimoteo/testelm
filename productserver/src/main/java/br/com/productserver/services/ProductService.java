@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.product.commons.dtos.FileMessageDto;
+import br.com.product.commons.dtos.ProductDto;
+import br.com.product.commons.repositories.ProductRepository;
 import br.com.productserver.models.Status;
 
 @Service
@@ -20,20 +22,26 @@ public class ProductService {
 
 	@Autowired
 	private KafkaTemplate<String, FileMessageDto> template;
+	
+	@Autowired
+	private ProductRepository productRepository;
 
-	public void sendFile(MultipartFile fileMultipart) throws EncryptedDocumentException, IOException {
+	public int sendFile(MultipartFile fileMultipart) throws EncryptedDocumentException, IOException {
 		logger.debug("sendFile: {}", fileMultipart.getName());
 		FileMessageDto fileDto = new FileMessageDto(fileMultipart);
 		template.send("topic.productsfile",fileDto);
+		int token = fileDto.hashCode();
+		return token;
 	}
 	
 	public Status getStatus(int id) {
 		return null;
 	}
 
-	public void update(Integer id) {
+	public void update(Double id, ProductDto productDto) {
 	}
 	
-	public void delete(Integer id) {
+	public void delete(Double id) {
+		productRepository.deleteById(id);
 	}
 }
