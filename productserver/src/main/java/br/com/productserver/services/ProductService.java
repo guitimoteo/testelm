@@ -12,9 +12,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import br.com.product.commons.dtos.FileMessageDto;
 import br.com.product.commons.dtos.ProductDto;
+import br.com.product.commons.models.FileMessage;
+import br.com.product.commons.models.FileMessage.Status;
 import br.com.product.commons.models.Product;
+import br.com.product.commons.repositories.FileMessageRepository;
 import br.com.product.commons.repositories.ProductRepository;
-import br.com.productserver.models.Status;
 
 @Service
 public class ProductService {
@@ -26,17 +28,19 @@ public class ProductService {
 	
 	@Autowired
 	private ProductRepository productRepository;
+	
+	@Autowired
+	private FileMessageRepository fileMessageRepository;
 
 	public int sendFile(MultipartFile fileMultipart) throws EncryptedDocumentException, IOException {
 		logger.debug("sendFile: {}", fileMultipart.getName());
 		FileMessageDto fileDto = new FileMessageDto(fileMultipart);
 		template.send("topic.productsfile",fileDto);
-		int token = fileDto.hashCode();
-		return token;
+		return fileMessageRepository.save(new FileMessage(fileDto)).getToken();
 	}
 	
 	public Status getStatus(int id) {
-		return null;
+		return fileMessageRepository.findStatusById(id);
 	}
 
 	public void update(Double id, ProductDto productDto) {
