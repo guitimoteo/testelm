@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.product.commons.models.Product;
-import br.com.productconsumer.repositories.ProductRepository;
+import br.com.product.commons.repositories.ProductRepository;
 
 @Service
 public class ProductService {
