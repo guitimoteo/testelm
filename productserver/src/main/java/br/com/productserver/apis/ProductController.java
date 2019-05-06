@@ -15,14 +15,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.product.commons.dtos.FileMessageDto;
 import br.com.product.commons.dtos.ProductDto;
+import br.com.product.commons.models.FileMessage.Status;
 import br.com.productserver.models.MessageResponse;
-import br.com.productserver.models.Status;
 import br.com.productserver.services.ProductService;
 
 @RestController("api/v1/products")
@@ -53,9 +54,9 @@ public class ProductController {
 		return new ResponseEntity<MessageResponse>(new MessageResponse("File in process..."), headers, HttpStatus.ACCEPTED);
 	}
 	
-	@PutMapping(path="/id/{id}")
-	public ResponseEntity<MessageResponse> updateProduct(@PathVariable(name="id", required = true) Double id, ProductDto productDto) {
-		productService.update(id);
+	@PutMapping(path="/")
+	public ResponseEntity<MessageResponse> updateProduct(@RequestBody()ProductDto productDto) {
+		productService.update(productDto);
 		return new ResponseEntity<MessageResponse>(new MessageResponse("Product updated"), HttpStatus.OK);
 	}
 	

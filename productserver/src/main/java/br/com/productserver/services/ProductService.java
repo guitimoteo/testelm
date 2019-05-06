@@ -17,6 +17,7 @@ import br.com.product.commons.models.FileMessage.Status;
 import br.com.product.commons.models.Product;
 import br.com.product.commons.repositories.FileMessageRepository;
 import br.com.product.commons.repositories.ProductRepository;
+import br.com.productserver.exceptions.BadRequestException;
 
 @Service
 public class ProductService {
@@ -40,14 +41,21 @@ public class ProductService {
 	}
 	
 	public Status getStatus(int id) {
+		if(!fileMessageRepository.existsById(id))
+			throw new BadRequestException("File doesn't exist");
 		return fileMessageRepository.findStatusById(id);
 	}
 
-	public void update(Double id, ProductDto productDto) {
-		productRepository.save(new Product(productDto));
+	public void update(ProductDto productDto) {
+		Product product = new Product(productDto);
+		if(!productRepository.existsById(product.getLm()))
+			throw new BadRequestException("Product doesn't exist");
+		productRepository.save(product);
 	}
 	
 	public void delete(Double id) {
+		if(!productRepository.existsById(id))
+			throw new BadRequestException("Product doesn't exist");
 		productRepository.deleteById(id);
 	}
 }
