@@ -23,7 +23,6 @@ public class FileMessage {
 		super();
 		this.name = fileDto.getName();
 		this.token = fileDto.hashCode();
-		this.status = Status.IN_PROCESS;
 	}
 	/**
 	 * @return the name

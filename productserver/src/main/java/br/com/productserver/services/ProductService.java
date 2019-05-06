@@ -7,7 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
+import org.springframework.util.concurrent.ListenableFutureCallback;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.product.commons.dtos.FileMessageDto;
@@ -36,8 +38,21 @@ public class ProductService {
 	public int sendFile(MultipartFile fileMultipart) throws EncryptedDocumentException, IOException {
 		logger.debug("sendFile: {}", fileMultipart.getName());
 		FileMessageDto fileDto = new FileMessageDto(fileMultipart);
-		template.send("topic.productsfile",fileDto);
-		return fileMessageRepository.save(new FileMessage(fileDto)).getToken();
+		FileMessage fileMessage = new FileMessage(fileDto);
+		template.send("topic.productsfile",fileDto).addCallback(new ListenableFutureCallback<SendResult<String, FileMessageDto>>() {
+
+			@Override
+			public void onSuccess(SendResult<String, FileMessageDto> result) {
+				fileMessage.setStatus(Status.IN_PROCESS);
+			}
+
+			@Override
+			public void onFailure(Throwable ex) {
+				fileMessage.setStatus(Status.FAILED);
+				logger.error("Erro ao enviar a mensagem {}: {}", ex.getMessage(), ex.getCause());
+			}
+		});
+		return fileMessageRepository.save(fileMessage).getToken();
 	}
 	
 	public Status getStatus(int id) {
