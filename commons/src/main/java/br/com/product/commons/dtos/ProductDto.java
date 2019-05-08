@@ -26,8 +26,9 @@ public class ProductDto {
 	/**
 	 * @param lm the lm to set
 	 */
-	public void setLm(Double lm) {
+	public ProductDto withLm(Double lm) {
 		this.lm = lm;
+		return this;
 	}
 	/**
 	 * @return the category
@@ -38,8 +39,9 @@ public class ProductDto {
 	/**
 	 * @param category the category to set
 	 */
-	public void setCategory(Double category) {
+	public ProductDto withCategory(Double category) {
 		this.category = category;
+		return this;
 	}
 	/**
 	 * @return the name
@@ -50,8 +52,9 @@ public class ProductDto {
 	/**
 	 * @param name the name to set
 	 */
-	public void setName(String name) {
+	public ProductDto withName(String name) {
 		this.name = name;
+		return this;
 	}
 	/**
 	 * @return the freeShipping
@@ -62,8 +65,9 @@ public class ProductDto {
 	/**
 	 * @param freeShipping the freeShipping to set
 	 */
-	public void setFreeShipping(Boolean freeShipping) {
+	public ProductDto withFreeShipping(Boolean freeShipping) {
 		this.freeShipping = freeShipping;
+		return this;
 	}
 	/**
 	 * @return the description
@@ -74,8 +78,9 @@ public class ProductDto {
 	/**
 	 * @param description the description to set
 	 */
-	public void setDescription(String description) {
+	public ProductDto withDescription(String description) {
 		this.description = description;
+		return this;
 	}
 	/**
 	 * @return the price
@@ -86,7 +91,8 @@ public class ProductDto {
 	/**
 	 * @param price the price to set
 	 */
-	public void setPrice(Double price) {
+	public ProductDto withPrice(Double price) {
 		this.price = price;
+		return this;
 	}
 }
